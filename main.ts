@@ -328,16 +328,18 @@ let MapOneLeversPushed = 0
 let Time = 0
 let mySprite: Sprite = null
 let Jumps = 0
-let textSprite: TextSprite = null
+let textSprite: Sprite = null
 let Game_Started = false
 let tilt_animation = false
 Game_Started = false
+let TimeWatchFreeze = false
 Set_Colors()
 blockMenu.showMenu(["PLAY"], MenuStyle.List, MenuLocation.BottomHalf)
 blockMenu.setColors(5, 2)
 scene.setBackgroundColor(4)
 textSprite = textsprite.create("Puzzles n' Platforms")
 textSprite.setPosition(71, 19)
+let Level = 1
 game.onUpdate(function () {
     if (Game_Started) {
         console.log(mySprite.vx)
@@ -375,6 +377,13 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
+    if (Game_Started) {
+        if (mySprite.tileKindAt(TileDirection.Center, assets.tile`tile8`)) {
+            color.FadeToBlack.startScreenEffect(1000)
+        }
+    }
+})
+game.onUpdate(function () {
     if (Fall_Damage) {
         if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
             Fall_Damage = false
@@ -390,6 +399,8 @@ game.onUpdateInterval(250, function () {
 })
 game.onUpdateInterval(250, function () {
     if (Game_Started) {
-        Time += 0.25
+        if (!(TimeWatchFreeze)) {
+            Time += 0.25
+        }
     }
 })
