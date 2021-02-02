@@ -50,6 +50,58 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
                 . . . . 3 3 . . . . 
                 `,img`
                 . . . . . . . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                `,img`
+                . . . . . . . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                `,img`
+                . . . . . . . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                `,img`
+                . . . . . . . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                . . . . 3 3 . . . . 
+                `,img`
+                . . . . . . . . . . 
                 . . . . . . . . . . 
                 . . . 3 3 3 3 . . . 
                 . . . 3 3 3 3 . . . 
@@ -99,6 +151,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Reward, function (sprite, otherS
 sprites.onDestroyed(SpriteKind.Reward, function (sprite) {
     sprites.setDataBoolean(sprite, "Alive", false)
     animation.stopAnimation(animation.AnimationTypes.All, sprite)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`tile8`, function (sprite, location) {
+    TimeWatchFreeze = true
+    LevelOneRecord = Time
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile6`, function (sprite, location) {
     if (controller.player2.isPressed(ControllerButton.A)) {
@@ -295,7 +351,7 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             StopWatch.setPosition(10, 20)
             StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
             StopWatch.setFlag(SpriteFlag.Ghost, true)
-            for (let index2 = 0; index2 < 3; index2++) {
+            for (let index2 = 0; index2 < 7; index2++) {
                 Time_Shard = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -325,14 +381,16 @@ let Fall_Damage = false
 let Time_Shard: Sprite = null
 let StopWatch: Sprite = null
 let MapOneLeversPushed = 0
+let LevelOneRecord = 0
 let Time = 0
 let mySprite: Sprite = null
 let Jumps = 0
 let textSprite: Sprite = null
+let TimeWatchFreeze = false
 let Game_Started = false
 let tilt_animation = false
 Game_Started = false
-let TimeWatchFreeze = false
+TimeWatchFreeze = false
 Set_Colors()
 blockMenu.showMenu(["PLAY"], MenuStyle.List, MenuLocation.BottomHalf)
 blockMenu.setColors(5, 2)
@@ -342,14 +400,9 @@ textSprite.setPosition(71, 19)
 let Level = 1
 game.onUpdate(function () {
     if (Game_Started) {
-        console.log(mySprite.vx)
-    }
-})
-game.onUpdate(function () {
-    if (Game_Started) {
-        if (MapOneLeversPushed == 3) {
-            tiles.setWallAt(tiles.getTileLocation(12, 28), false)
-            tiles.setTileAt(tiles.getTileLocation(12, 28), assets.tile`tile`)
+        if (MapOneLeversPushed == 6) {
+            tiles.setWallAt(tiles.getTileLocation(24, 0), false)
+            tiles.setTileAt(tiles.getTileLocation(24, 0), assets.tile`tile`)
         }
     }
 })
@@ -371,15 +424,7 @@ game.onUpdate(function () {
 game.onUpdate(function () {
     if (Game_Started) {
         if (mySprite.vy > 175) {
-            console.log("Fall Damage is True")
             Fall_Damage = true
-        }
-    }
-})
-game.onUpdate(function () {
-    if (Game_Started) {
-        if (mySprite.tileKindAt(TileDirection.Center, assets.tile`tile8`)) {
-            color.FadeToBlack.startScreenEffect(1000)
         }
     }
 })
