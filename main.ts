@@ -230,13 +230,10 @@ sprites.onOverlap(SpriteKind.Reward, SpriteKind.Reward, function (sprite, otherS
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Reward, function (sprite, otherSprite) {
     otherSprite.destroy()
     timer.background(function () {
-        scene.cameraShake(4, 300)
+        scene.cameraShake(2, 150)
     })
     timer.background(function () {
-        music.playTone(262, music.beat(BeatFraction.Half))
-    })
-    timer.background(function () {
-        Time += -2.5
+        Time += -3
     })
 })
 sprites.onDestroyed(SpriteKind.Reward, function (sprite) {
@@ -400,7 +397,6 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             blockMenu.setControlsEnabled(false)
             blockMenu.closeMenu()
             textSprite.destroy()
-            info.setLife(3)
             Jumps = 2
             MapOneLeversPushed = 0
             tiles.setTilemap(tilemap`Map1`)
@@ -501,7 +497,6 @@ game.onUpdate(function () {
     if (Game_Started) {
         if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
             if (Jumps == 0) {
-                Fall_Damage = false
                 Jumps = 2
             }
         }
@@ -510,13 +505,6 @@ game.onUpdate(function () {
 game.onUpdate(function () {
     if (Game_Started) {
         Set_Colors()
-    }
-})
-game.onUpdate(function () {
-    if (Game_Started) {
-        if (mySprite.vy > 175) {
-            Fall_Damage = true
-        }
     }
 })
 game.onUpdate(function () {
