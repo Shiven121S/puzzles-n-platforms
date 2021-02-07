@@ -233,7 +233,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Reward, function (sprite, otherS
         scene.cameraShake(2, 150)
     })
     timer.background(function () {
-        Time += -3
+        Time += -2
     })
 })
 sprites.onDestroyed(SpriteKind.Reward, function (sprite) {
@@ -390,12 +390,20 @@ function Set_Colors () {
     color.setColor(15, color.rgb(255, 255, 255))
 }
 blockMenu.onMenuOptionSelected(function (option, index) {
-    if (option == "PLAY") {
+    if (option == "Choose Map") {
         color.FadeToBlack.startScreenEffect(500)
         timer.after(600, function () {
             color.startFade(color.Black, color.originalPalette, 10)
-            blockMenu.setControlsEnabled(false)
             blockMenu.closeMenu()
+            blockMenu.showMenu(["Map 1", "Map 2", "Map 3", "Map 4", "Map 5"], MenuStyle.List, MenuLocation.BottomHalf)
+        })
+    } else if (option == "Map 1") {
+        color.FadeToBlack.startScreenEffect(500)
+        timer.after(600, function () {
+            blockMenu.closeMenu()
+            blockMenu.setControlsEnabled(false)
+            color.startFade(color.Black, color.originalPalette, 10)
+            Set_Colors()
             textSprite.destroy()
             Jumps = 2
             MapOneLeversPushed = 0
@@ -414,6 +422,7 @@ blockMenu.onMenuOptionSelected(function (option, index) {
                 . . 3 3 3 3 3 3 . . 
                 . . 3 3 3 3 3 3 . . 
                 `, SpriteKind.Player)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 0))
             scene.cameraFollowSprite(mySprite)
             mySprite.ay = 275
             controller.moveSprite(mySprite, 100, 0)
@@ -438,7 +447,7 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             StopWatch.setPosition(10, 20)
             StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
             StopWatch.setFlag(SpriteFlag.Ghost, true)
-            for (let index2 = 0; index2 < 23; index2++) {
+            for (let index2 = 0; index2 < 18; index2++) {
                 Time_Shard = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -460,11 +469,15 @@ blockMenu.onMenuOptionSelected(function (option, index) {
                 tiles.placeOnRandomTile(Time_Shard, assets.tile`tile10`)
             }
             Time = 0
+            Map = 1
+            Levers = 16
             Game_Started = true
         })
     }
 })
 let Fall_Damage = false
+let Levers = 0
+let Map = 0
 let Time_Shard: Sprite = null
 let StopWatch: Sprite = null
 let MapOneLeversPushed = 0
@@ -472,14 +485,14 @@ let LevelOneRecord = 0
 let Time = 0
 let mySprite: Sprite = null
 let Jumps = 0
-let textSprite: Sprite = null
+let textSprite: TextSprite = null
 let TimeWatchFreeze = false
 let Game_Started = false
 let tilt_animation = false
 Game_Started = false
 TimeWatchFreeze = false
 Set_Colors()
-blockMenu.showMenu(["PLAY"], MenuStyle.List, MenuLocation.BottomHalf)
+blockMenu.showMenu(["Choose Map"], MenuStyle.List, MenuLocation.BottomHalf)
 blockMenu.setColors(5, 2)
 scene.setBackgroundColor(4)
 textSprite = textsprite.create("Puzzles n' Platforms")
@@ -492,6 +505,9 @@ game.onUpdate(function () {
             tiles.setTileAt(tiles.getTileLocation(33, 23), assets.tile`tile13`)
         }
     }
+})
+game.onUpdate(function () {
+    Set_Colors()
 })
 game.onUpdate(function () {
     if (Game_Started) {
