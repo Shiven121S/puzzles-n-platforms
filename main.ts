@@ -225,7 +225,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 sprites.onOverlap(SpriteKind.Reward, SpriteKind.Reward, function (sprite, otherSprite) {
-    tiles.placeOnRandomTile(otherSprite, assets.tile`tile10`)
+    tiles.placeOnRandomTile(otherSprite, assets.tile`tile21`)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Reward, function (sprite, otherSprite) {
     otherSprite.destroy()
@@ -398,8 +398,8 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             blockMenu.showMenu(["Map 1", "Map 2", "Map 3", "Map 4", "Map 5"], MenuStyle.List, MenuLocation.BottomHalf)
         })
     } else if (option == "Map 1") {
-        color.FadeToBlack.startScreenEffect(500)
-        timer.after(600, function () {
+        color.FadeToBlack.startScreenEffect(100)
+        timer.after(110, function () {
             blockMenu.closeMenu()
             blockMenu.setControlsEnabled(false)
             color.startFade(color.Black, color.originalPalette, 10)
@@ -447,7 +447,7 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             StopWatch.setPosition(10, 20)
             StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
             StopWatch.setFlag(SpriteFlag.Ghost, true)
-            for (let index2 = 0; index2 < 18; index2++) {
+            for (let index2 = 0; index2 < 13; index2++) {
                 Time_Shard = sprites.create(img`
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
@@ -466,13 +466,91 @@ blockMenu.onMenuOptionSelected(function (option, index) {
                     . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . 
                     `, SpriteKind.Reward)
-                tiles.placeOnRandomTile(Time_Shard, assets.tile`tile10`)
+                tiles.placeOnRandomTile(Time_Shard, assets.tile`tile21`)
             }
             Time = 0
             Map = 1
+            Levers = 15
+            Game_Started = true
+        })
+    } else if (option == "Map 2") {
+        color.FadeToBlack.startScreenEffect(100)
+        timer.after(110, function () {
+            blockMenu.closeMenu()
+            blockMenu.setControlsEnabled(false)
+            color.startFade(color.Black, color.originalPalette, 10)
+            Set_Colors()
+            textSprite.destroy()
+            Jumps = 2
+            MapOneLeversPushed = 0
+            tiles.setTilemap(tilemap`level13`)
+            mySprite = sprites.create(img`
+                . . . . . . . . . . 
+                . . . . . . . . . . 
+                . . . . . . . . . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                `, SpriteKind.Player)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 0))
+            scene.cameraFollowSprite(mySprite)
+            mySprite.ay = 275
+            controller.moveSprite(mySprite, 100, 0)
+            StopWatch = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, SpriteKind.Stop_Watch)
+            StopWatch.setPosition(10, 20)
+            StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
+            StopWatch.setFlag(SpriteFlag.Ghost, true)
+            for (let index2 = 0; index2 < 14; index2++) {
+                Time_Shard = sprites.create(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . 4 4 . . . . . . . 
+                    . . . . . . 4 4 4 4 . . . . . . 
+                    . . . . . . 5 4 4 6 . . . . . . 
+                    . . . . . . 5 4 6 6 . . . . . . 
+                    . . . . . . 5 6 6 6 . . . . . . 
+                    . . . . . . 5 5 6 6 . . . . . . 
+                    . . . . . . 5 5 6 . . . . . . . 
+                    . . . . . . 5 5 6 . . . . . . . 
+                    . . . . . . 5 6 6 . . . . . . . 
+                    . . . . . . . 6 . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpriteKind.Reward)
+                tiles.placeOnRandomTile(Time_Shard, assets.tile`tile21`)
+            }
+            Time = 0
+            Map = 2
             Levers = 16
             Game_Started = true
         })
+    } else if (option == "Map 3") {
+        color.FadeToBlack.startScreenEffect(100)
     }
 })
 let Fall_Damage = false
@@ -500,10 +578,27 @@ textSprite.setPosition(71, 19)
 let Level = 1
 game.onUpdate(function () {
     if (Game_Started) {
-        if (MapOneLeversPushed == 11) {
-            tiles.setWallAt(tiles.getTileLocation(33, 23), false)
-            tiles.setTileAt(tiles.getTileLocation(33, 23), assets.tile`tile13`)
+        if (Map == 1) {
+            if (MapOneLeversPushed == 15) {
+                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
+                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
+            }
         }
+    }
+})
+game.onUpdate(function () {
+    if (Game_Started) {
+        if (Map == 2) {
+            if (MapOneLeversPushed == 16) {
+                tiles.setWallAt(tiles.getTileLocation(31, 33), false)
+                tiles.setTileAt(tiles.getTileLocation(31, 33), assets.tile`tile13`)
+            }
+        }
+    }
+})
+game.onUpdate(function () {
+    if (Game_Started) {
+        console.log(MapOneLeversPushed)
     }
 })
 game.onUpdate(function () {
