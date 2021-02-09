@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const Reward = SpriteKind.create()
     export const Stop_Watch = SpriteKind.create()
+    export const shadow = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Game_Started) {
@@ -224,11 +225,8 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
-sprites.onOverlap(SpriteKind.Reward, SpriteKind.Reward, function (sprite, otherSprite) {
-    tiles.placeOnRandomTile(otherSprite, assets.tile`tile21`)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Reward, function (sprite, otherSprite) {
-    otherSprite.destroy()
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`tile`)
     timer.background(function () {
         scene.cameraShake(2, 150)
     })
@@ -243,6 +241,7 @@ sprites.onDestroyed(SpriteKind.Reward, function (sprite) {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile8`, function (sprite, location) {
     TimeWatchFreeze = true
     LevelOneRecord = Time
+    GameOver = true
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile6`, function (sprite, location) {
     if (controller.player2.isPressed(ControllerButton.A)) {
@@ -251,134 +250,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`tile6`, function (sprite, loc
     } else if (!(controller.player2.isPressed(ControllerButton.A))) {
         mySprite.say("PRESS 'U'", 200)
     }
-})
-sprites.onCreated(SpriteKind.Reward, function (sprite) {
-    sprites.setDataBoolean(sprite, "Alive", true)
-    animation.runImageAnimation(
-    sprite,
-    [img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f . . . . . . 
-        . . . . . f f 4 4 f f . . . . . 
-        . . . . . f 4 4 4 4 f . . . . . 
-        . . . . . f 5 4 4 6 f . . . . . 
-        . . . . . f 5 4 6 6 f . . . . . 
-        . . . . . f 5 6 6 6 f . . . . . 
-        . . . . . f 5 5 6 6 f . . . . . 
-        . . . . . f 5 5 6 f f . . . . . 
-        . . . . . f 5 5 6 f . . . . . . 
-        . . . . . f 5 6 6 f . . . . . . 
-        . . . . . f f 6 f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f . . . . . . 
-        . . . . . f f 4 4 f f . . . . . 
-        . . . . . f 4 4 4 4 f . . . . . 
-        . . . . . f 5 4 4 6 f . . . . . 
-        . . . . . f 5 4 6 6 f . . . . . 
-        . . . . . f 5 6 6 6 f . . . . . 
-        . . . . . f 5 5 6 6 f . . . . . 
-        . . . . . f 5 5 6 f f . . . . . 
-        . . . . . f 5 5 6 f . . . . . . 
-        . . . . . f 5 6 6 f . . . . . . 
-        . . . . . f f 6 f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f . . . . . . 
-        . . . . . f f 4 4 f f . . . . . 
-        . . . . . f 4 4 4 4 f . . . . . 
-        . . . . . f 5 4 4 6 f . . . . . 
-        . . . . . f 5 4 6 6 f . . . . . 
-        . . . . . f 5 6 6 6 f . . . . . 
-        . . . . . f 5 5 6 6 f . . . . . 
-        . . . . . f 5 5 6 f f . . . . . 
-        . . . . . f 5 5 6 f . . . . . . 
-        . . . . . f 5 6 6 f . . . . . . 
-        . . . . . f f 6 f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f . . . . . . 
-        . . . . . f f 4 4 f f . . . . . 
-        . . . . . f 4 4 4 4 f . . . . . 
-        . . . . . f 5 4 4 6 f . . . . . 
-        . . . . . f 5 4 6 6 f . . . . . 
-        . . . . . f 5 6 6 6 f . . . . . 
-        . . . . . f 5 5 6 6 f . . . . . 
-        . . . . . f 5 5 6 f f . . . . . 
-        . . . . . f 5 5 6 f . . . . . . 
-        . . . . . f 5 6 6 f . . . . . . 
-        . . . . . f f 6 f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f . . . . . . 
-        . . . . . f f 4 4 f f . . . . . 
-        . . . . . f 4 4 4 4 f . . . . . 
-        . . . . . f 5 4 4 6 f . . . . . 
-        . . . . . f 5 4 6 6 f . . . . . 
-        . . . . . f 5 6 6 6 f . . . . . 
-        . . . . . f 5 5 6 6 f . . . . . 
-        . . . . . f 5 5 6 f f . . . . . 
-        . . . . . f 5 5 6 f . . . . . . 
-        . . . . . f 5 6 6 f . . . . . . 
-        . . . . . f f 6 f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f . . . . . . 
-        . . . . . f f 4 4 f f . . . . . 
-        . . . . . f 4 4 4 4 f . . . . . 
-        . . . . . f 5 4 4 6 f . . . . . 
-        . . . . . f 5 4 6 6 f . . . . . 
-        . . . . . f 5 6 6 6 f . . . . . 
-        . . . . . f 5 5 6 6 f . . . . . 
-        . . . . . f 5 5 6 f f . . . . . 
-        . . . . . f 5 5 6 f . . . . . . 
-        . . . . . f 5 6 6 f . . . . . . 
-        . . . . . f f 6 f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f . . . . . . 
-        . . . . . f f 4 4 f f . . . . . 
-        . . . . . f 4 4 4 4 f . . . . . 
-        . . . . . f 5 4 4 6 f . . . . . 
-        . . . . . f 5 4 6 6 f . . . . . 
-        . . . . . f 5 6 6 6 f . . . . . 
-        . . . . . f 5 5 6 6 f . . . . . 
-        . . . . . f 5 5 6 f f . . . . . 
-        . . . . . f 5 5 6 f . . . . . . 
-        . . . . . f 5 6 6 f . . . . . . 
-        . . . . . f f 6 f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `],
-    150,
-    true
-    )
 })
 function Set_Colors () {
     color.setColor(1, color.rgb(0, 0, 0))
@@ -447,30 +318,8 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             StopWatch.setPosition(10, 20)
             StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
             StopWatch.setFlag(SpriteFlag.Ghost, true)
-            for (let index2 = 0; index2 < 13; index2++) {
-                Time_Shard = sprites.create(img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . 4 4 . . . . . . . 
-                    . . . . . . 4 4 4 4 . . . . . . 
-                    . . . . . . 5 4 4 6 . . . . . . 
-                    . . . . . . 5 4 6 6 . . . . . . 
-                    . . . . . . 5 6 6 6 . . . . . . 
-                    . . . . . . 5 5 6 6 . . . . . . 
-                    . . . . . . 5 5 6 . . . . . . . 
-                    . . . . . . 5 5 6 . . . . . . . 
-                    . . . . . . 5 6 6 . . . . . . . 
-                    . . . . . . . 6 . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    `, SpriteKind.Reward)
-                tiles.placeOnRandomTile(Time_Shard, assets.tile`tile21`)
-            }
             Time = 0
             Map = 1
-            Levers = 15
             Game_Started = true
         })
     } else if (option == "Map 2") {
@@ -523,51 +372,83 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             StopWatch.setPosition(10, 20)
             StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
             StopWatch.setFlag(SpriteFlag.Ghost, true)
-            for (let index2 = 0; index2 < 14; index2++) {
-                Time_Shard = sprites.create(img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . 4 4 . . . . . . . 
-                    . . . . . . 4 4 4 4 . . . . . . 
-                    . . . . . . 5 4 4 6 . . . . . . 
-                    . . . . . . 5 4 6 6 . . . . . . 
-                    . . . . . . 5 6 6 6 . . . . . . 
-                    . . . . . . 5 5 6 6 . . . . . . 
-                    . . . . . . 5 5 6 . . . . . . . 
-                    . . . . . . 5 5 6 . . . . . . . 
-                    . . . . . . 5 6 6 . . . . . . . 
-                    . . . . . . . 6 . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    `, SpriteKind.Reward)
-                tiles.placeOnRandomTile(Time_Shard, assets.tile`tile21`)
-            }
             Time = 0
             Map = 2
-            Levers = 16
             Game_Started = true
         })
     } else if (option == "Map 3") {
         color.FadeToBlack.startScreenEffect(100)
+        timer.after(110, function () {
+            blockMenu.closeMenu()
+            blockMenu.setControlsEnabled(false)
+            color.startFade(color.Black, color.originalPalette, 10)
+            Set_Colors()
+            textSprite.destroy()
+            Jumps = 2
+            MapOneLeversPushed = 0
+            tiles.setTilemap(tilemap`level15`)
+            mySprite = sprites.create(img`
+                . . . . . . . . . . 
+                . . . . . . . . . . 
+                . . . . . . . . . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                `, SpriteKind.Player)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 0))
+            scene.cameraFollowSprite(mySprite)
+            mySprite.ay = 275
+            controller.moveSprite(mySprite, 100, 0)
+            StopWatch = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, SpriteKind.Stop_Watch)
+            StopWatch.setPosition(10, 20)
+            StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
+            StopWatch.setFlag(SpriteFlag.Ghost, true)
+            // // tiles.placeOnTile(Time_Shard, tiles.getTileLocation(0, 0))
+            // // tiles.placeOnRandomTile(Time_Shard, tiles.getRandomTileByType(img`tile21`))
+            Time = 0
+            Map = 3
+            Game_Started = true
+        })
     }
 })
 let Fall_Damage = false
-let Levers = 0
 let Map = 0
-let Time_Shard: Sprite = null
 let StopWatch: Sprite = null
 let MapOneLeversPushed = 0
 let LevelOneRecord = 0
 let Time = 0
 let mySprite: Sprite = null
 let Jumps = 0
-let textSprite: TextSprite = null
+let textSprite: Sprite = null
 let TimeWatchFreeze = false
+let GameOver = false
 let Game_Started = false
 let tilt_animation = false
 Game_Started = false
+GameOver = false
 TimeWatchFreeze = false
 Set_Colors()
 blockMenu.showMenu(["Choose Map"], MenuStyle.List, MenuLocation.BottomHalf)
@@ -576,16 +457,6 @@ scene.setBackgroundColor(4)
 textSprite = textsprite.create("Puzzles n' Platforms")
 textSprite.setPosition(71, 19)
 let Level = 1
-game.onUpdate(function () {
-    if (Game_Started) {
-        if (Map == 1) {
-            if (MapOneLeversPushed == 15) {
-                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
-                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
-            }
-        }
-    }
-})
 game.onUpdate(function () {
     if (Game_Started) {
         if (Map == 2) {
@@ -598,7 +469,12 @@ game.onUpdate(function () {
 })
 game.onUpdate(function () {
     if (Game_Started) {
-        console.log(MapOneLeversPushed)
+        if (Map == 3) {
+            if (MapOneLeversPushed == 18) {
+                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
+                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
+            }
+        }
     }
 })
 game.onUpdate(function () {
@@ -627,9 +503,14 @@ game.onUpdate(function () {
         }
     }
 })
-game.onUpdateInterval(250, function () {
+game.onUpdate(function () {
     if (Game_Started) {
-        StopWatch.say("" + Time + " Seconds")
+        if (Map == 1) {
+            if (MapOneLeversPushed == 15) {
+                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
+                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
+            }
+        }
     }
 })
 game.onUpdateInterval(250, function () {
@@ -637,5 +518,10 @@ game.onUpdateInterval(250, function () {
         if (!(TimeWatchFreeze)) {
             Time += 0.25
         }
+    }
+})
+game.onUpdateInterval(250, function () {
+    if (Game_Started) {
+        StopWatch.say("" + Time + " Seconds")
     }
 })
