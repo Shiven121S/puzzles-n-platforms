@@ -225,8 +225,12 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
-    tiles.setTileAt(location, assets.tile`tile`)
+sprites.onOverlap(SpriteKind.Reward, SpriteKind.Reward, function (sprite, otherSprite) {
+    tiles.placeOnRandomTile(sprite, assets.tile`myTile`)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Reward, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    tiles.setTileAt(tiles.locationOfSprite(otherSprite), assets.tile`tile`)
     timer.background(function () {
         scene.cameraShake(2, 150)
     })
@@ -235,7 +239,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
     })
 })
 sprites.onDestroyed(SpriteKind.Reward, function (sprite) {
-    sprites.setDataBoolean(sprite, "Alive", false)
     animation.stopAnimation(animation.AnimationTypes.All, sprite)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile8`, function (sprite, location) {
@@ -250,6 +253,100 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`tile6`, function (sprite, loc
     } else if (!(controller.player2.isPressed(ControllerButton.A))) {
         mySprite.say("PRESS 'U'", 200)
     }
+})
+sprites.onCreated(SpriteKind.Reward, function (sprite) {
+    tiles.placeOnRandomTile(sprite, assets.tile`myTile`)
+    animation.runImageAnimation(
+    sprite,
+    [img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . . f f 4 4 f f . . . . . 
+        . . . . . f 4 4 4 4 f . . . . . 
+        . . . . . f 5 4 4 6 f . . . . . 
+        . . . . . f 5 4 6 6 f . . . . . 
+        . . . . . f 5 6 6 6 f . . . . . 
+        . . . . . f 5 5 6 6 f . . . . . 
+        . . . . . f 5 5 6 f f . . . . . 
+        . . . . . f 5 5 6 f . . . . . . 
+        . . . . . f 5 6 6 f . . . . . . 
+        . . . . . f f 6 f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . . f f 4 4 f f . . . . . 
+        . . . . . f 4 4 4 4 f . . . . . 
+        . . . . . f 5 4 4 6 f . . . . . 
+        . . . . . f 5 4 6 6 f . . . . . 
+        . . . . . f 5 6 6 6 f . . . . . 
+        . . . . . f 5 5 6 6 f . . . . . 
+        . . . . . f 5 5 6 f f . . . . . 
+        . . . . . f 5 5 6 f . . . . . . 
+        . . . . . f 5 6 6 f . . . . . . 
+        . . . . . f f 6 f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . . f f 4 4 f f . . . . . 
+        . . . . . f 4 4 4 4 f . . . . . 
+        . . . . . f 5 4 4 6 f . . . . . 
+        . . . . . f 5 4 6 6 f . . . . . 
+        . . . . . f 5 6 6 6 f . . . . . 
+        . . . . . f 5 5 6 6 f . . . . . 
+        . . . . . f 5 5 6 f f . . . . . 
+        . . . . . f 5 5 6 f . . . . . . 
+        . . . . . f 5 6 6 f . . . . . . 
+        . . . . . f f 6 f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . . f f 4 4 f f . . . . . 
+        . . . . . f 4 4 4 4 f . . . . . 
+        . . . . . f 5 4 4 6 f . . . . . 
+        . . . . . f 5 4 6 6 f . . . . . 
+        . . . . . f 5 6 6 6 f . . . . . 
+        . . . . . f 5 5 6 6 f . . . . . 
+        . . . . . f 5 5 6 f f . . . . . 
+        . . . . . f 5 5 6 f . . . . . . 
+        . . . . . f 5 6 6 f . . . . . . 
+        . . . . . f f 6 f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . . f f 4 4 f f . . . . . 
+        . . . . . f 4 4 4 4 f . . . . . 
+        . . . . . f 5 4 4 6 f . . . . . 
+        . . . . . f 5 4 6 6 f . . . . . 
+        . . . . . f 5 6 6 6 f . . . . . 
+        . . . . . f 5 5 6 6 f . . . . . 
+        . . . . . f 5 5 6 f f . . . . . 
+        . . . . . f 5 5 6 f . . . . . . 
+        . . . . . f 5 6 6 f . . . . . . 
+        . . . . . f f 6 f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    200,
+    true
+    )
 })
 function Set_Colors () {
     color.setColor(1, color.rgb(0, 0, 0))
@@ -318,6 +415,26 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             StopWatch.setPosition(10, 20)
             StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
             StopWatch.setFlag(SpriteFlag.Ghost, true)
+            for (let index2 = 0; index2 < 12; index2++) {
+                TimeSharde = sprites.create(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . f f f f . . . . . . 
+                    . . . . . f f 4 4 f f . . . . . 
+                    . . . . . f 4 4 4 4 f . . . . . 
+                    . . . . . f 5 4 4 6 f . . . . . 
+                    . . . . . f 5 4 6 6 f . . . . . 
+                    . . . . . f 5 6 6 6 f . . . . . 
+                    . . . . . f 5 5 6 6 f . . . . . 
+                    . . . . . f 5 5 6 f f . . . . . 
+                    . . . . . f 5 5 6 f . . . . . . 
+                    . . . . . f 5 6 6 f . . . . . . 
+                    . . . . . f f 6 f f . . . . . . 
+                    . . . . . . f f f . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpriteKind.Reward)
+            }
             Time = 0
             Map = 1
             Game_Started = true
@@ -351,6 +468,26 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             scene.cameraFollowSprite(mySprite)
             mySprite.ay = 275
             controller.moveSprite(mySprite, 100, 0)
+            for (let index2 = 0; index2 < 16; index2++) {
+                TimeSharde = sprites.create(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . f f f f . . . . . . 
+                    . . . . . f f 4 4 f f . . . . . 
+                    . . . . . f 4 4 4 4 f . . . . . 
+                    . . . . . f 5 4 4 6 f . . . . . 
+                    . . . . . f 5 4 6 6 f . . . . . 
+                    . . . . . f 5 6 6 6 f . . . . . 
+                    . . . . . f 5 5 6 6 f . . . . . 
+                    . . . . . f 5 5 6 f f . . . . . 
+                    . . . . . f 5 5 6 f . . . . . . 
+                    . . . . . f 5 6 6 f . . . . . . 
+                    . . . . . f f 6 f f . . . . . . 
+                    . . . . . . f f f . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpriteKind.Reward)
+            }
             StopWatch = sprites.create(img`
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
@@ -387,6 +524,26 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             Jumps = 2
             MapOneLeversPushed = 0
             tiles.setTilemap(tilemap`level15`)
+            for (let index2 = 0; index2 < 13; index2++) {
+                TimeSharde = sprites.create(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . f f f f . . . . . . 
+                    . . . . . f f 4 4 f f . . . . . 
+                    . . . . . f 4 4 4 4 f . . . . . 
+                    . . . . . f 5 4 4 6 f . . . . . 
+                    . . . . . f 5 4 6 6 f . . . . . 
+                    . . . . . f 5 6 6 6 f . . . . . 
+                    . . . . . f 5 5 6 6 f . . . . . 
+                    . . . . . f 5 5 6 f f . . . . . 
+                    . . . . . f 5 5 6 f . . . . . . 
+                    . . . . . f 5 6 6 f . . . . . . 
+                    . . . . . f f 6 f f . . . . . . 
+                    . . . . . . f f f . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpriteKind.Reward)
+            }
             mySprite = sprites.create(img`
                 . . . . . . . . . . 
                 . . . . . . . . . . 
@@ -436,6 +593,7 @@ blockMenu.onMenuOptionSelected(function (option, index) {
 })
 let Fall_Damage = false
 let Map = 0
+let TimeSharde: Sprite = null
 let StopWatch: Sprite = null
 let MapOneLeversPushed = 0
 let LevelOneRecord = 0
@@ -457,6 +615,30 @@ scene.setBackgroundColor(4)
 textSprite = textsprite.create("Puzzles n' Platforms")
 textSprite.setPosition(71, 19)
 let Level = 1
+game.onUpdate(function () {
+    if (Game_Started) {
+        Set_Colors()
+    }
+})
+game.onUpdate(function () {
+    if (Fall_Damage) {
+        if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
+            Fall_Damage = false
+            scene.cameraShake(4, 500)
+            info.changeLifeBy(-1)
+        }
+    }
+})
+game.onUpdate(function () {
+    if (Game_Started) {
+        if (Map == 1) {
+            if (MapOneLeversPushed == 15) {
+                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
+                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
+            }
+        }
+    }
+})
 game.onUpdate(function () {
     if (Game_Started) {
         if (Map == 2) {
@@ -485,30 +667,6 @@ game.onUpdate(function () {
         if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
             if (Jumps == 0) {
                 Jumps = 2
-            }
-        }
-    }
-})
-game.onUpdate(function () {
-    if (Game_Started) {
-        Set_Colors()
-    }
-})
-game.onUpdate(function () {
-    if (Fall_Damage) {
-        if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
-            Fall_Damage = false
-            scene.cameraShake(4, 500)
-            info.changeLifeBy(-1)
-        }
-    }
-})
-game.onUpdate(function () {
-    if (Game_Started) {
-        if (Map == 1) {
-            if (MapOneLeversPushed == 15) {
-                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
-                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
             }
         }
     }
