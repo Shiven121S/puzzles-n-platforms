@@ -589,6 +589,82 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             Map = 3
             Game_Started = true
         })
+    } else if (option == "Map 4") {
+        color.FadeToBlack.startScreenEffect(100)
+        timer.after(110, function () {
+            blockMenu.closeMenu()
+            blockMenu.setControlsEnabled(false)
+            color.startFade(color.Black, color.originalPalette, 10)
+            Set_Colors()
+            textSprite.destroy()
+            Jumps = 2
+            MapOneLeversPushed = 0
+            tiles.setTilemap(tilemap`level17`)
+            for (let index2 = 0; index2 < 22; index2++) {
+                TimeSharde = sprites.create(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . f f f f . . . . . . 
+                    . . . . . f f 4 4 f f . . . . . 
+                    . . . . . f 4 4 4 4 f . . . . . 
+                    . . . . . f 5 4 4 6 f . . . . . 
+                    . . . . . f 5 4 6 6 f . . . . . 
+                    . . . . . f 5 6 6 6 f . . . . . 
+                    . . . . . f 5 5 6 6 f . . . . . 
+                    . . . . . f 5 5 6 f f . . . . . 
+                    . . . . . f 5 5 6 f . . . . . . 
+                    . . . . . f 5 6 6 f . . . . . . 
+                    . . . . . f f 6 f f . . . . . . 
+                    . . . . . . f f f . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `, SpriteKind.Reward)
+            }
+            mySprite = sprites.create(img`
+                . . . . . . . . . . 
+                . . . . . . . . . . 
+                . . . . . . . . . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                . . 3 3 3 3 3 3 . . 
+                `, SpriteKind.Player)
+            tiles.placeOnTile(mySprite, tiles.getTileLocation(0, 0))
+            scene.cameraFollowSprite(mySprite)
+            mySprite.ay = 275
+            controller.moveSprite(mySprite, 100, 0)
+            StopWatch = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, SpriteKind.Stop_Watch)
+            StopWatch.setPosition(10, 20)
+            StopWatch.setFlag(SpriteFlag.RelativeToCamera, true)
+            StopWatch.setFlag(SpriteFlag.Ghost, true)
+            // // tiles.placeOnTile(Time_Shard, tiles.getTileLocation(0, 0))
+            // // tiles.placeOnRandomTile(Time_Shard, tiles.getRandomTileByType(img`tile21`))
+            Time = 0
+            Map = 3
+            Game_Started = true
+        })
     }
 })
 let Fall_Damage = false
@@ -631,20 +707,20 @@ game.onUpdate(function () {
 })
 game.onUpdate(function () {
     if (Game_Started) {
-        if (Map == 1) {
-            if (MapOneLeversPushed == 15) {
-                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
-                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
+        if (Map == 2) {
+            if (MapOneLeversPushed == 16) {
+                tiles.setWallAt(tiles.getTileLocation(31, 33), false)
+                tiles.setTileAt(tiles.getTileLocation(31, 33), assets.tile`tile13`)
             }
         }
     }
 })
 game.onUpdate(function () {
     if (Game_Started) {
-        if (Map == 2) {
-            if (MapOneLeversPushed == 16) {
-                tiles.setWallAt(tiles.getTileLocation(31, 33), false)
-                tiles.setTileAt(tiles.getTileLocation(31, 33), assets.tile`tile13`)
+        if (Map == 1) {
+            if (MapOneLeversPushed == 15) {
+                tiles.setWallAt(tiles.getTileLocation(33, 32), false)
+                tiles.setTileAt(tiles.getTileLocation(33, 32), assets.tile`tile13`)
             }
         }
     }
@@ -667,6 +743,16 @@ game.onUpdate(function () {
         if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
             if (Jumps == 0) {
                 Jumps = 2
+            }
+        }
+    }
+})
+game.onUpdate(function () {
+    if (Game_Started) {
+        if (Map == 4) {
+            if (MapOneLeversPushed == 17) {
+                tiles.setWallAt(tiles.getTileLocation(33, 1), false)
+                tiles.setTileAt(tiles.getTileLocation(33, 1), assets.tile`tile13`)
             }
         }
     }
