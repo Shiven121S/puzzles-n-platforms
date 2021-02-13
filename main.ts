@@ -238,14 +238,71 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Reward, function (sprite, otherS
         Time += -2
     })
 })
+function Load_Saves_For_Map_Four () {
+    if (blockSettings.exists("Load Saves For Map Four")) {
+        LevelFourFastest = blockSettings.readNumber("Load Saves For Map Four")
+        blockSettings.writeNumber("Load Saves For Map Four", LevelFourFastest)
+    } else {
+        LevelFourFastest = 0
+        blockSettings.writeNumber("Load Saves For Map Four", LevelFourFastest)
+    }
+}
 sprites.onDestroyed(SpriteKind.Reward, function (sprite) {
     animation.stopAnimation(animation.AnimationTypes.All, sprite)
 })
+function Load_Saves_For_Map_Two () {
+    if (blockSettings.exists("Level Two Fastest time")) {
+        LevelTwoFastest = blockSettings.readNumber("Level Two Fastest time")
+        blockSettings.writeNumber("Level Two Fastest time", LevelTwoFastest)
+    } else {
+        LevelTwoFastest = 0
+        blockSettings.writeNumber("Level Two Fastest time", LevelTwoFastest)
+    }
+}
+function Load_Saves_For_Map_One () {
+    if (blockSettings.exists("Level One Fastest time")) {
+        LevelOneFastest = blockSettings.readNumber("Level One Fastest time")
+        blockSettings.writeNumber("Level One Fastest time", LevelOneFastest)
+    } else {
+        LevelOneFastest = 0
+        blockSettings.writeNumber("Level One Fastest time", LevelOneFastest)
+    }
+}
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile8`, function (sprite, location) {
     TimeWatchFreeze = true
     LevelOneRecord = Time
     GameOver = true
+    if (Map == 1) {
+        if (Time < blockSettings.readNumber("Level One Fastest time")) {
+            blockSettings.writeNumber("Level One Fastest time", Time)
+        }
+    } else if (Map == 2) {
+        if (Time < blockSettings.readNumber("Level Two Fastest time")) {
+            blockSettings.writeNumber("Level Two Fastest time", Time)
+        }
+    } else if (Map == 3) {
+        if (Time < blockSettings.readNumber("Level Three Fastest time")) {
+            blockSettings.writeNumber("Level Three Fastest time", Time)
+        }
+    } else if (Map == 4) {
+        if (Time < blockSettings.readNumber("Level Four Fastest time")) {
+            blockSettings.writeNumber("Level Four Fastest time", Time)
+        }
+    } else if (Map == 5) {
+        if (Time < blockSettings.readNumber("Level Five Fastest time")) {
+            blockSettings.writeNumber("Level Five Fastest time", Time)
+        }
+    }
 })
+function Load_Saves_For_Map_Five () {
+    if (blockSettings.exists("Load Saves For Map Five")) {
+        LevelFiveFastest = blockSettings.readNumber("Load Saves For Map Five")
+        blockSettings.writeNumber("Load Saves For Map Five", LevelFiveFastest)
+    } else {
+        LevelFiveFastest = 0
+        blockSettings.writeNumber("Load Saves For Map Five", LevelFiveFastest)
+    }
+}
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile6`, function (sprite, location) {
     if (controller.player2.isPressed(ControllerButton.A)) {
         tiles.setTileAt(location, assets.tile`tile9`)
@@ -356,6 +413,15 @@ function Set_Colors () {
     color.setColor(5, color.rgb(39, 71, 110))
     color.setColor(6, color.rgb(0, 29, 74))
     color.setColor(15, color.rgb(255, 255, 255))
+}
+function Load_Saves_For_Map_Three () {
+    if (blockSettings.exists("Level Three Fastest time")) {
+        LevelThreeFastest = blockSettings.readNumber("Level Three Fastest time")
+        blockSettings.writeNumber("Level Three Fastest time", LevelThreeFastest)
+    } else {
+        LevelThreeFastest = 0
+        blockSettings.writeNumber("Level Three Fastest time", LevelThreeFastest)
+    }
 }
 blockMenu.onMenuOptionSelected(function (option, index) {
     if (option == "Choose Map") {
@@ -662,17 +728,22 @@ blockMenu.onMenuOptionSelected(function (option, index) {
             // // tiles.placeOnTile(Time_Shard, tiles.getTileLocation(0, 0))
             // // tiles.placeOnRandomTile(Time_Shard, tiles.getRandomTileByType(img`tile21`))
             Time = 0
-            Map = 3
+            Map = 4
             Game_Started = true
         })
     }
 })
 let Fall_Damage = false
-let Map = 0
 let TimeSharde: Sprite = null
 let StopWatch: Sprite = null
+let LevelThreeFastest = 0
 let MapOneLeversPushed = 0
+let LevelFiveFastest = 0
+let Map = 0
 let LevelOneRecord = 0
+let LevelOneFastest = 0
+let LevelTwoFastest = 0
+let LevelFourFastest = 0
 let Time = 0
 let mySprite: Sprite = null
 let Jumps = 0
@@ -680,6 +751,11 @@ let textSprite: Sprite = null
 let TimeWatchFreeze = false
 let GameOver = false
 let Game_Started = false
+Load_Saves_For_Map_One()
+Load_Saves_For_Map_Two()
+Load_Saves_For_Map_Three()
+Load_Saves_For_Map_Four()
+Load_Saves_For_Map_Five()
 let tilt_animation = false
 Game_Started = false
 GameOver = false
@@ -727,6 +803,17 @@ game.onUpdate(function () {
 })
 game.onUpdate(function () {
     if (Game_Started) {
+        if (Map == 4) {
+            if (MapOneLeversPushed == 17) {
+                tiles.setWallAt(tiles.getTileLocation(33, 1), false)
+                tiles.setTileAt(tiles.getTileLocation(33, 1), assets.tile`tile13`)
+                console.log("doAction")
+            }
+        }
+    }
+})
+game.onUpdate(function () {
+    if (Game_Started) {
         if (Map == 3) {
             if (MapOneLeversPushed == 18) {
                 tiles.setWallAt(tiles.getTileLocation(33, 32), false)
@@ -746,6 +833,9 @@ game.onUpdate(function () {
             }
         }
     }
+})
+game.onUpdate(function () {
+    console.log(MapOneLeversPushed)
 })
 game.onUpdate(function () {
     if (Game_Started) {
